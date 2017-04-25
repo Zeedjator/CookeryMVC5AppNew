@@ -1,0 +1,27 @@
+﻿@model Cookery.WebUI.Models.Identity.CreateModel
+
+@{
+    ViewBag.Title = "Регистрация";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Html.ValidationSummary(false)
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label>Имя</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label>Email</label>
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label>Пароль</label>
+        @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Регистрация</button>
+
+    @Html.ActionLink("Отмена", "List", "Recipe", null, new { @class = "btn btn-default" })
+}

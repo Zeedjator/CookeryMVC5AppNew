@@ -1,0 +1,18 @@
+﻿@using Cookery.WebUI.Models;
+@using Cookery.WebUI.HtmlHelpers;
+
+@model RecipesListViewModel
+
+@{
+    ViewBag.Title = "Рецепты";
+}
+
+
+@foreach (var p in @Model.Recipes)
+{
+    @Html.Partial("RecipeSummary", p)
+}
+
+<div class="btn-group pull-right">
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory, searchValue = @ViewBag.SearchValue }))
+</div>

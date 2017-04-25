@@ -1,0 +1,78 @@
+﻿@model Cookery.WebUI.Models.Entities.Recipe
+<div class="well">
+    @if (Model.ImageData != null)
+    {
+        <div class="pull-left" style="margin-right: 10px">
+            <img style="height:200px;" class="img-thumbnail"
+                 src="@Url.Action("GetImage", "Recipe",
+                          new {Model.RecipeID})"/>
+        </div>
+    }
+    <br/>
+    <h3>
+        <strong>@Model.Name</strong>
+    </h3>
+    <br/>
+    <h4><strong>Описание:</strong></h4>
+    <p>
+        <span class="lead">@Model.Description</span>  
+    </p>
+    <br/>
+    <h5><strong>Ингредиенты:</strong></h5>
+    <p>
+        <ul>
+            @foreach (var i in @Model.Ingredients)
+            {
+                <li><span> @i.Name</span></li>
+            }
+        </ul>
+    </p>
+</div>
+
+@if (Model.InstructionSteps != null)
+{
+    <h3>Инструкция по приготовлению:</h3>
+    <div class="well">
+        @foreach (var s in @Model.InstructionSteps)
+        {
+            <h3><strong>Шаг:</strong>
+            </h3>
+            if (s.ImageData != null)
+            {
+                <div class="pull-left" style="margin-right: 10px">
+                    <img  class="img-thumbnail"
+                         src="@Url.Action("GetInstrStepPhoto", "Recipe",
+                          new {s.RecipeID, s.StepID})" style="height:100px;" />
+                </div>
+            }
+            <p>
+                <span class="lead">@s.Description</span>
+            </p>
+            <br />
+        }
+    </div>
+}
+
+
+@* ДЛЯ РАБОТЫ DISQUS *@
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://zeedjator.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+@* ДЛЯ РАБОТЫ DISQUS КОНЕЦ*@

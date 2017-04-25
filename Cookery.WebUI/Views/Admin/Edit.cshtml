@@ -1,0 +1,109 @@
+﻿@using Cookery.WebUI.Models
+@model Cookery.WebUI.Models.RecipeViewModel
+
+@{
+    ViewBag.Title = "Админ панель: редактирование рецепта";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel">
+    <div class="panel-heading">
+        <h3>Редактирование рецепта «@Model.Recipe.Name»</h3>
+    </div>
+
+    @using (Html.BeginForm("Edit", "Admin",
+        FormMethod.Post, new {enctype = "multipart/form-data"}))
+    {
+        <div class="panel-body">
+            @Html.HiddenFor(m => m.Recipe.RecipeID)
+            <div class="form-group">
+                <label>Название</label>
+                @Html.TextBox("Recipe.Name", null,
+                    new {@class = "form-control"})
+
+            </div>
+            <div class="form-group">
+                <label>Категория</label>
+                @Html.TextBox("Recipe.Category", null,
+                    new {@class = "form-control"})
+
+            </div>
+            <div class="form-group">
+                <label>Описание</label>
+                @Html.TextArea("Recipe.Description", null,
+                    new {@class = "form-control", rows = 3})
+
+            </div>
+            <div class="form-group">
+                <label>Ингредиенты</label>
+                @Html.TextArea("IngredientsList", Model.IngredientsList,
+                    new {@class = "form-control", rows = 5, placeholder = "Введите каждый ингридиент с новой строки"})
+            </div>
+            <div class="form-group">
+                <div style="position: relative;">
+                    <label>Картинка</label>
+                    <a class='btn' href='javascript:;'>
+                        Выберите файл...
+                        <input type="file" name="Image" size="40"
+                               style="position: absolute; z-index: 2; top: 0;
+                                                                                                   left: 0; filter: alpha(opacity=0); opacity: 0;
+                                                                                                   background-color: transparent; color: transparent;"
+                               onchange=' $("#upload-file-info").html($(this).val()); '>
+                    </a>
+                    <span class='label label-info' id="upload-file-info"></span>
+                </div>
+                @if (Model.Recipe.ImageData == null)
+                {
+                    <div class="form-control-static">Нет картинки</div>
+                }
+                else
+                {
+                    <img class="img-thumbnail" width="150" height="150"
+                         src="@Url.Action("GetImage", "Recipe",
+                                  new {Model.Recipe.RecipeID})"/>
+                }
+            </div>
+            <hr/>
+
+            <div class="form-group instruction">
+                <h4>Инструкция по приготовлению</h4>
+
+                @foreach (var instrStep in Model.Recipe.InstructionSteps)
+                {
+                    <div class="stepDescription">
+                        <label>Какой-то шаг</label>
+                        @Html.TextArea("instrStepDesc", instrStep.Description, new { @class = "form-control" })
+                        <div style="position: relative;">
+                            <a class='btn' href='javascript:;'>
+                                + Пошаговое фото
+                                <input type="file" name="InsrStepPhotos" size="40" style="position: absolute; z-index: 2; top: 0; left: 0; filter: alpha(opacity=0); opacity: 0; background-color: transparent; color: transparent;" />
+                            </a>
+                        </div>
+
+                        @if (instrStep.ImageData == null)
+                        {
+                        <div class="form-control-static">Нет фото для этого шага</div>
+                        }
+                        else
+                        {
+                        <img class="img-thumbnail" width="150" height="150"
+                             src="@Url.Action("GetInstrStepPhoto", "Recipe",
+                                      new {Model.Recipe.RecipeID, instrStep.StepID})" />
+                        }
+                        <br />
+                    </div>
+                }
+
+            </div>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" value="Сохранить" class="btn btn-primary"/>
+            @Html.ActionLink("Отменить изменения и вернуться к списку", "Index", null, new
+            {
+                @class = "btn btn-default"
+            })
+        </div>
+    }
+</div>
+<script src="~/scripts/jquery-3.1.1.js"></script>
+<script src="@Url.Content("~/scripts/Custom/AddDynamicFields.js")"></script>
+  

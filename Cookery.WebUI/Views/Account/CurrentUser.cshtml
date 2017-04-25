@@ -1,0 +1,25 @@
+﻿@using Castle.Core.Internal
+@model string
+@{
+   
+}
+
+
+<div>
+
+    @* Отображаем текущего авторизованного пользователя, 
+       если пользователь не авторизован, то просто отображаем, что вошёл, как гость *@
+    
+    @if (Model.IsNullOrEmpty())
+    {
+        @Html.ActionLink("Войти ", "Login", "Account", null, new {@class = "navbar-brand navbar-right"})
+        @Html.ActionLink("Регистрация ", "UserRegistration", "Account", null, new { @class = "navbar-brand navbar-right" })
+        <a class="navbar-brand navbar-right" href="#">Вы вошли, как: гость</a>
+    }
+    else
+    {
+        @Html.ActionLink("Мои рецепты", "Index", "User", null, new { @class = "navbar-brand navbar-right" })
+        @Html.ActionLink("Выйти", "Logout", "Account", Model, new { @class = "navbar-brand navbar-right" })
+        <a class="navbar-brand navbar-right" href="#">Вы вошли, как: @Model</a>
+    } 
+</div>

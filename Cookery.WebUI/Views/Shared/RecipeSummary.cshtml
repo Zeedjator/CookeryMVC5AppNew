@@ -1,0 +1,19 @@
+﻿@model Cookery.WebUI.Models.Entities.Recipe
+<div class="well">
+    @if (Model.ImageData != null)
+    {
+        <div class="pull-left" style="margin-right: 10px">
+            <img class="img-thumbnail" width="150" height="150"
+                 src="@Url.Action("GetImage", "Recipe",
+                new { Model.RecipeID })" />
+        </div>
+    }
+    <h3><strong>@Html.ActionLink(Model.Name, "Info", new {recipeId = Model.RecipeID})</strong>
+    </h3>
+    <span class="lead">
+        @Model.Description
+    </span>
+</div>
+
+
+
